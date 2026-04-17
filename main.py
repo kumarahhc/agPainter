@@ -4,8 +4,6 @@ import sys
 import base64
 from typing import Annotated
 
-# The OpenAI SDK's response parser uses recursive type construction that can exceed
-# Python's default limit (1000) on large responses with many tool calls.
 sys.setrecursionlimit(5000)
 
 import PIL.Image
@@ -127,7 +125,7 @@ painter = AssistantAgent(
         "When you have finished all drawing calls for this round, reply with exactly: DRAWING_COMPLETE"
     ),
 )
-# Same fix as executor: remove the built-in auto-reply counter so the Painter
+# remove the built-in auto-reply counter so the Painter
 painter._reply_func_list = [
     f for f in painter._reply_func_list
     if f.get("reply_func").__name__ not in (
